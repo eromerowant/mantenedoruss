@@ -5,79 +5,61 @@ namespace App\Http\Controllers;
 use App\Region;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Validator;
+
 class RegionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index( Request $request )
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'paginate' => 'nullable|integer|gte:1' // greater than or equal to 1.
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $campos = ['id', 'nombre', 'codigo'];
+        $peticion = Region::select($campos);
+
+        // Con o sin paginación
+        if ( $request->get('paginate') ) {
+            $response = $peticion->paginate( $request->get('paginate') )->toArray();
+        } else {
+            $response['data'] = $peticion->get();
+        }
+
+        return response()->json($response);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Region  $region
-     * @return \Illuminate\Http\Response
-     */
     public function show(Region $region)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Region  $region
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Region $region)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Region  $region
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Region $region)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Region  $region
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Region $region)
     {
         //

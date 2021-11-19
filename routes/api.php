@@ -16,13 +16,16 @@ Route::group(['prefix' => 'v1'], function () {
 
 // CON AUTENTICACIÓN:
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'jwt.verify',
     'prefix' => 'v1'
 ], function () {
     Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me')->name('me');
+
+    // REGION
+    Route::get('regiones/index', 'RegionController@index');
 });
 
 
