@@ -25,4 +25,9 @@ class Sede extends Model
     {
         return $this->hasMany('App\Ensayo', 'sede_id');
     }
+
+    public function carreras()
+    {
+        return $this->belongsToMany(Carrera::class, 'carrera_sedes', 'sede_id', 'carrera_id');
+    }
 }
