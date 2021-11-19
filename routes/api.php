@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 // PÚBLICAS:
 Route::group(['prefix' => 'v1'], function () {
-    Route::post('user/recover_password', 'UserController@recover_password')->name('recover_password');
-    
+    Route::post('login', 'AuthController@login');
 });
 
 
@@ -19,10 +18,11 @@ Route::group([
     'middleware' => 'jwt.verify',
     'prefix' => 'v1'
 ], function () {
-    Route::post('login', 'AuthController@login');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me')->name('me');
+    Route::post('me', 'AuthController@me');
+
+    Route::post('user/recover_password', 'UserController@recover_password');
 
     // REGION
     Route::get('regiones/index', 'RegionController@index');
@@ -30,6 +30,13 @@ Route::group([
     Route::post('regiones/update', 'RegionController@update');
     Route::get('regiones/show', 'RegionController@show');
     Route::delete('regiones/delete', 'RegionController@delete');
+
+    // COMUNAS
+    Route::get('comunas/index', 'ComunaController@index');
+    Route::post('comunas/store', 'ComunaController@store');
+    Route::post('comunas/update', 'ComunaController@update');
+    Route::get('comunas/show', 'ComunaController@show');
+    Route::delete('comunas/delete', 'ComunaController@delete');
 });
 
 

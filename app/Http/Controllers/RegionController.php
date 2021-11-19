@@ -48,7 +48,7 @@ class RegionController extends Controller
                 'message' => $validator->errors(),
             ], 400);
         }
-        $region = new region();
+        $region = new Region();
         $region->nombre = $request->nombre;
         $region->codigo = $request->codigo;
         $region->save();
