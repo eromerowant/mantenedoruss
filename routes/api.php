@@ -37,6 +37,13 @@ Route::group([
     Route::post('comunas/update', 'ComunaController@update');
     Route::get('comunas/show', 'ComunaController@show');
     Route::delete('comunas/delete', 'ComunaController@delete');
+
+    // SEDES
+    Route::get('sedes/index', 'SedeController@index');
+    Route::post('sedes/store', 'SedeController@store');
+    Route::post('sedes/update', 'SedeController@update');
+    Route::get('sedes/show', 'SedeController@show');
+    Route::delete('sedes/delete', 'SedeController@delete');
 });
 
 
