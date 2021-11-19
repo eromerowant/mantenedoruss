@@ -51,6 +51,13 @@ Route::group([
     Route::post('ensayos/update', 'EnsayoController@update');
     Route::get('ensayos/show', 'EnsayoController@show');
     Route::delete('ensayos/delete', 'EnsayoController@delete');
+
+    // ORIGENES
+    Route::get('origenes/index', 'OrigenController@index');
+    Route::post('origenes/store', 'OrigenController@store');
+    Route::post('origenes/update', 'OrigenController@update');
+    Route::get('origenes/show', 'OrigenController@show');
+    Route::delete('origenes/delete', 'OrigenController@delete');
 });
 
 
