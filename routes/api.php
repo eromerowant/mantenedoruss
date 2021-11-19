@@ -29,7 +29,7 @@ Route::group([
     Route::post('regiones/store', 'RegionController@store');
     Route::post('regiones/update', 'RegionController@update');
     Route::get('regiones/show', 'RegionController@show');
-    Route::delete('regiones/destroy', 'RegionController@destroy');
+    Route::delete('regiones/delete', 'RegionController@delete');
 });
 
 

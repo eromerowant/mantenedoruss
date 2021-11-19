@@ -105,7 +105,7 @@ class RegionController extends Controller
         return response()->json($response);
     }
 
-    public function destroy( Request $request )
+    public function delete( Request $request )
     {
         $validator = Validator::make($request->all(), [
             'region_id' => 'required|integer|exists_soft:regions,id',
