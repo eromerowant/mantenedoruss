@@ -45,9 +45,22 @@ class RegionController extends Controller
         //
     }
 
-    public function show(Region $region)
+    public function show( Request $request )
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'region_id' => 'required|integer|exists_soft:regions,id' // greater than or equal to 1.
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $response['data'] = Region::where('id', $request->get('region_id'))->first();
+
+        return response()->json($response);
     }
 
     public function edit(Region $region)

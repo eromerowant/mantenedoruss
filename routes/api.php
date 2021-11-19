@@ -26,6 +26,7 @@ Route::group([
 
     // REGION
     Route::get('regiones/index', 'RegionController@index');
+    Route::get('regiones/show', 'RegionController@show');
 });
 
 
