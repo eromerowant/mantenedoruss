@@ -44,6 +44,13 @@ Route::group([
     Route::post('sedes/update', 'SedeController@update');
     Route::get('sedes/show', 'SedeController@show');
     Route::delete('sedes/delete', 'SedeController@delete');
+
+    // ENSAYOS
+    Route::get('ensayos/index', 'EnsayoController@index');
+    Route::post('ensayos/store', 'EnsayoController@store');
+    Route::post('ensayos/update', 'EnsayoController@update');
+    Route::get('ensayos/show', 'EnsayoController@show');
+    Route::delete('ensayos/delete', 'EnsayoController@delete');
 });
 
 
