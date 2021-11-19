@@ -26,7 +26,10 @@ Route::group([
 
     // REGION
     Route::get('regiones/index', 'RegionController@index');
+    Route::post('regiones/store', 'RegionController@store');
+    Route::post('regiones/update', 'RegionController@update');
     Route::get('regiones/show', 'RegionController@show');
+    Route::delete('regiones/destroy', 'RegionController@destroy');
 });
 
 

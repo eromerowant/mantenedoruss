@@ -35,20 +35,34 @@ class RegionController extends Controller
         return response()->json($response);
     }
 
-    public function create()
+    public function store( Request $request )
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string',
+            'codigo' => 'required|string',
+        ]);
 
-    public function store(Request $request)
-    {
-        //
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+        $region = new region();
+        $region->nombre = $request->nombre;
+        $region->codigo = $request->codigo;
+        $region->save();
+
+        $response['data'] = $region;
+
+        return response()->json($response);
+
     }
 
     public function show( Request $request )
     {
         $validator = Validator::make($request->all(), [
-            'region_id' => 'required|integer|exists_soft:regions,id' // greater than or equal to 1.
+            'region_id' => 'required|integer|exists_soft:regions,id',
         ]);
 
         if ( $validator->fails() ) {
@@ -63,18 +77,52 @@ class RegionController extends Controller
         return response()->json($response);
     }
 
-    public function edit(Region $region)
+    public function update( Request $request )
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'region_id' => 'required|integer|exists_soft:regions,id',
+            'nombre'    => 'nullable|string',
+            'codigo'    => 'nullable|string',
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $region = Region::where('id', $request->get('region_id'))->first();
+        if ( $request->get('nombre') ) {
+            $region->nombre = $request->get('nombre');
+        }
+        if ( $request->get('codigo') ) {
+            $region->codigo = $request->get('codigo');
+        }
+        $region->update();
+
+        $response['data'] = $region;
+        return response()->json($response);
     }
 
-    public function update(Request $request, Region $region)
+    public function destroy( Request $request )
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+            'region_id' => 'required|integer|exists_soft:regions,id',
+        ]);
 
-    public function destroy(Region $region)
-    {
-        //
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $region = Region::where('id', $request->get('region_id'))->first();
+        $region->delete();
+
+        return response()->json([
+            'message' => "La región con id: ".$request->get('region_id')." fue borrada exitosamente.",
+        ]);
     }
 }
