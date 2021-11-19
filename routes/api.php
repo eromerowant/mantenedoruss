@@ -58,6 +58,13 @@ Route::group([
     Route::post('origenes/update', 'OrigenController@update');
     Route::get('origenes/show', 'OrigenController@show');
     Route::delete('origenes/delete', 'OrigenController@delete');
+
+    // SUBORIGENES
+    Route::get('suborigenes/index', 'SuborigenController@index');
+    Route::post('suborigenes/store', 'SuborigenController@store');
+    Route::post('suborigenes/update', 'SuborigenController@update');
+    Route::get('suborigenes/show', 'SuborigenController@show');
+    Route::delete('suborigenes/delete', 'SuborigenController@delete');
 });
 
 
