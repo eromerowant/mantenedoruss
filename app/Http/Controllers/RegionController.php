@@ -72,7 +72,8 @@ class RegionController extends Controller
             ], 400);
         }
 
-        $response['data'] = Region::where('id', $request->get('region_id'))->first();
+        $relations = ['comunas'];
+        $response['data'] = Region::where('id', $request->get('region_id'))->with($relations)->first();
 
         return response()->json($response);
     }

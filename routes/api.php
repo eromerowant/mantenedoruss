@@ -65,6 +65,20 @@ Route::group([
     Route::post('suborigenes/update', 'SuborigenController@update');
     Route::get('suborigenes/show', 'SuborigenController@show');
     Route::delete('suborigenes/delete', 'SuborigenController@delete');
+
+    // CARRERAS
+    Route::get('carreras/index', 'CarreraController@index');
+    Route::post('carreras/store', 'CarreraController@store');
+    Route::post('carreras/update', 'CarreraController@update');
+    Route::get('carreras/show', 'CarreraController@show');
+    Route::delete('carreras/delete', 'CarreraController@delete');
+
+    // Usuarios (Administradores)
+    Route::get('usuarios/index', 'UserController@index');
+    Route::post('usuarios/store', 'UserController@store');
+    Route::post('usuarios/update', 'UserController@update');
+    Route::get('usuarios/show', 'UserController@show');
+    Route::delete('usuarios/delete', 'UserController@delete');
 });
 
 

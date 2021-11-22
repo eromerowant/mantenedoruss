@@ -12,6 +12,126 @@ use Mail;
 
 class UserController extends Controller
 {
+    public function index( Request $request )
+    {
+        $validator = Validator::make($request->all(), [
+            'paginate' => 'nullable|integer|gte:1' // greater than or equal to 1.
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $campos = ['id', 'nombre', 'cargo', 'email'];
+        $peticion = User::select($campos);
+
+        // Con o sin paginación
+        if ( $request->get('paginate') ) {
+            $response = $peticion->paginate( $request->get('paginate') )->toArray();
+        } else {
+            $response['data'] = $peticion->get();
+        }
+
+        return response()->json($response);
+    }
+
+    public function store( Request $request )
+    {
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string',
+            'cargo'  => 'required|string',
+            'email'  => 'required|email|unique:users,email',
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+        $user = new User();
+        $user->nombre = $request->nombre;
+        $user->cargo = $request->cargo;
+        $user->email = $request->email;
+        $user->password = Hash::make( Str::random(10) );
+        $user->save();
+
+        $response['data'] = $user;
+
+        return response()->json($response);
+
+    }
+
+    public function show( Request $request )
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists_soft:users,id',
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $response['data'] = User::where('id', $request->get('user_id'))->first();
+
+        return response()->json($response);
+    }
+
+    public function update( Request $request )
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists_soft:users,id',
+            'nombre'  => 'nullable|string',
+            'cargo'   => 'nullable|string',
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $user = User::where('id', $request->get('user_id'))->first();
+        if ( $request->get('nombre') ) {
+            $user->nombre = $request->get('nombre');
+        }
+        if ( $request->get('cargo') ) {
+            $user->cargo = $request->get('cargo');
+        }
+        $user->update();
+
+        $response['data'] = $user;
+        return response()->json($response);
+    }
+
+    public function delete( Request $request )
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists_soft:users,id',
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $user = User::where('id', $request->get('user_id'))->first();
+        $user->delete();
+
+        return response()->json([
+            'message' => "El usuario con id: ".$request->get('user_id')." fue borrado exitosamente.",
+        ]);
+    }
+
     public function recover_password( Request $request )
     {
         $validator = Validator::make($request->all(), [
