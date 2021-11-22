@@ -12,7 +12,9 @@ class CarreraController extends Controller
     public function index( Request $request )
     {
         $validator = Validator::make($request->all(), [
-            'paginate' => 'nullable|integer|gte:1' // greater than or equal to 1.
+            'paginate' => 'nullable|integer|gte:1', // greater than or equal to 1.
+            'nombre'   => 'nullable|string',
+            'codigo'   => 'nullable|string',
         ]);
 
         if ( $validator->fails() ) {
@@ -24,6 +26,15 @@ class CarreraController extends Controller
 
         $campos = ['id', 'nombre', 'codigo'];
         $peticion = Carrera::select($campos);
+
+        // FILTROS
+        if ( $request->get('nombre') ) {
+            $peticion->where('nombre', 'like', "%".$request->get('nombre')."%");
+        }
+
+        if ( $request->get('codigo') ) {
+            $peticion->where('codigo', 'like', "%".$request->get('codigo')."%");
+        }
 
         // Con o sin paginación
         if ( $request->get('paginate') ) {
