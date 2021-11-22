@@ -80,6 +80,13 @@ Route::group([
     Route::get('usuarios/show', 'UserController@show');
     Route::delete('usuarios/delete', 'UserController@delete');
     Route::post('usuarios/change_user_status', 'UserController@change_user_status');
+
+    // COLEGIOS
+    Route::get('colegios/index', 'ColegioController@index');
+    Route::post('colegios/store', 'ColegioController@store');
+    Route::post('colegios/update', 'ColegioController@update');
+    Route::get('colegios/show', 'ColegioController@show');
+    Route::delete('colegios/delete', 'ColegioController@delete');
 });
 
 
