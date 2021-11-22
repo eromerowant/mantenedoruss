@@ -79,6 +79,7 @@ Route::group([
     Route::post('usuarios/update', 'UserController@update');
     Route::get('usuarios/show', 'UserController@show');
     Route::delete('usuarios/delete', 'UserController@delete');
+    Route::post('usuarios/change_user_status', 'UserController@change_user_status');
 });
 
 

@@ -183,4 +183,33 @@ class UserController extends Controller
         }
         return $email_enviado;
     }
+
+    public function change_user_status( Request $request )
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer|exists_soft:users,id',
+        ]);
+
+        if ( $validator->fails() ) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors(),
+            ], 400);
+        }
+
+        $user = User::where('id', $request->get('user_id'))->first();
+        
+        if ( $user->status === 1 ) { 
+            $user->status = 2; // Deshabilitar
+            $message = "El usuario con id: ".$request->get('user_id')." fue DESHABILITADO.";
+        } else {
+            $user->status = 1; // Habilitar
+            $message = "El usuario con id: ".$request->get('user_id')." fue HABILITADO.";
+        }
+        $user->update();
+
+        return response()->json([
+            'message' => $message,
+        ]);
+    }
 }

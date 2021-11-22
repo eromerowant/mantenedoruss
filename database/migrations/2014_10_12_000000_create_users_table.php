@@ -12,6 +12,7 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->string('cargo')->comment('ejemplo: Administrador');
+            $table->tinyInteger('status')->default(2)->comment('1 habilitado. 2 deshabilitado.');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
